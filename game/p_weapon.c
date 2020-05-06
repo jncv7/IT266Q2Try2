@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "g_local.h"
 #include "m_player.h"
+#include <math.h> // JNCV MOD
 
 
 static qboolean	is_quad;
@@ -1265,7 +1266,7 @@ void weapon_supershotgun_fire (edict_t *ent)
 	vec3_t		v;
 	//	int			damage = 6;
 	//int			kick = 12;
-
+	// JNCV MOD 
 	int			damage = 0;
 	int			kick = 80;
 

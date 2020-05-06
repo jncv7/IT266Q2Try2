@@ -332,7 +332,11 @@ typedef struct
 	int			found_goals;
 
 	int			total_monsters;
-	int			killed_monsters;
+	int			killed_monsters; // this is the goldmine for doing our exp thing
+
+	//JNCV MOD --> XP MOD
+	int			playerlevel;
+	int			playerexp;
 
 	edict_t		*current_entity;	// entity running from G_RunFrame
 	int			body_que;			// dead bodies
