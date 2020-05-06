@@ -236,7 +236,7 @@ void DeathmatchScoreboardMessage (edict_t *ent, edict_t *killer)
 			stringlength += j;
 		}
 
-		// send the layout
+		// send the layout LOL
 		Com_sprintf (entry, sizeof(entry),
 			"client %i %i %i %i %i %i ",
 			x, y, sorted[i], cl->resp.score, cl->ping, (level.framenum - cl->resp.enterframe)/600);
@@ -325,7 +325,7 @@ void HelpComputer (edict_t *ent)
 	//here is the maths for the player level
 	level.playerexp = 5;
 	level.playerlevel = level.killed_monsters / level.playerexp;
-	
+	int modi = level.playerlevel * 5;
 	
 
 	// send the layout
@@ -335,7 +335,7 @@ void HelpComputer (edict_t *ent)
 		"xv 0 yv 24 cstring2 \"%s\" "		// level name
 		"xv 0 yv 54 cstring2 \"%s\" "		// help 1
 		"xv 0 yv 110 cstring2 \"%s\" "		// help 2
-		"xv 50 yv 164 string2 \" slain     portals    PLVL\" "
+		"xv 50 yv 164 string2 \" slain     dmgMODI    PLVL\" "
 		"xv 50 yv 172 string2 \"%3i/%3i     %i/%i       %i/%i\" ", 
 		sk,
 		level.level_name,
@@ -344,7 +344,8 @@ void HelpComputer (edict_t *ent)
 		// level.killed.monster can indicate how many monster in the level are killed
 		// we can have it so that every 5 monsters that are killed, we get a small power boost.
 		level.killed_monsters, level.total_monsters, 
-		level.found_goals, level.total_goals,
+		// level.found_goals, level.total_goals,
+		modi, level.total_goals,
 		level.playerlevel, level.total_secrets);
 		//level.found_secrets, level.total_secrets);
 

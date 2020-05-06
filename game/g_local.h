@@ -862,6 +862,7 @@ typedef struct
 	int			max_grenades;
 	int			max_cells;
 	int			max_slugs;
+	int			max_mana;
 
 	gitem_t		*weapon;
 	gitem_t		*lastweapon;

@@ -848,21 +848,27 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 void Weapon_Blaster_Fire (edict_t *ent)
 {
 	int		damage;
-
+	int		modi = (level.playerlevel * 5); // JNCV MOD 
 	if (deathmatch->value)
 		damage = 15;
 	else
-		damage = 10;
+		damage = 10 + modi;
+	// check if damage numbers are changing
+	//gi.cprintf(ent, PRINT_HIGH, "the damage of the blaster is %i", damage);
+
 	Blaster_Fire (ent, vec3_origin, damage, false, EF_BLASTER);
 	ent->client->ps.gunframe++;
 }
 
-void Weapon_Blaster (edict_t *ent)
+void Weapon_Blaster(edict_t *ent)
 {
 	//static int	pause_frames[]	= {19, 32, 0};
 	//static int	fire_frames[]	= {5, 0};
 	// JNCV MOD 
 	// made blaster into a fire magic missle spell
+	// cprintf is a print to console
+	//int a = level.playerlevel;
+	//gi.cprintf(ent, PRINT_HIGH, "THE player's level is %i",a);
 
 	static int	pause_frames[] = { 1,2, 19, 32, 0 };
 	static int	fire_frames[] = { 5, 7, 9, 0 };
@@ -877,6 +883,7 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 	vec3_t	offset;
 	int		effect;
 	int		damage;
+	int		modi = (level.playerlevel * 5); // JNCV MOD 
 
 	ent->client->weapon_sound = gi.soundindex("weapons/hyprbl1a.wav");
 
@@ -909,7 +916,7 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 			if (deathmatch->value)
 				damage = 15;
 			else
-				damage = 20;
+				damage = 20 + modi; // JNCV MOD
 			Blaster_Fire (ent, offset, damage, true, effect);
 			if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 				ent->client->pers.inventory[ent->client->ammo_index]--;
@@ -966,7 +973,8 @@ void Machinegun_Fire (edict_t *ent)
 	vec3_t		start;
 	vec3_t		forward, right;
 	vec3_t		angles;
-	int			damage = 8;
+	int		modi = (level.playerlevel * 5); // JNCV MOD 
+	int		damage = 2 + modi;
 	// removing kick int			kick = 2;
 	int kick = 0;
 	vec3_t		offset;
@@ -1068,11 +1076,12 @@ void Chaingun_Fire (edict_t *ent)
 	vec3_t		offset;
 	int			damage;
 	int			kick = 2;
+	int		modi = (level.playerlevel * 5); // JNCV MOD 
 
 	if (deathmatch->value)
 		damage = 6;
 	else
-		damage = 8;
+		damage = 1 + modi;
 
 	if (ent->client->ps.gunframe == 5)
 		gi.sound(ent, CHAN_AUTO, gi.soundindex("weapons/chngnu1a.wav"), 1, ATTN_IDLE, 0);
@@ -1205,9 +1214,9 @@ void weapon_shotgun_fire (edict_t *ent)
 	vec3_t		offset;
 	//int			damage = 4;
 	//int			kick = 8;
-
+	int		modi = (level.playerlevel * 5); // JNCV MOD 
 	int			damage = 0;
-	int			kick = 10;
+	int			kick = 10 + modi;
 
 
 	if (ent->client->ps.gunframe == 9)
@@ -1267,8 +1276,9 @@ void weapon_supershotgun_fire (edict_t *ent)
 	//	int			damage = 6;
 	//int			kick = 12;
 	// JNCV MOD 
+	int		modi = (level.playerlevel * 5); // JNCV MOD 
 	int			damage = 0;
-	int			kick = 80;
+	int			kick = 80 + modi;
 
 	AngleVectors (ent->client->v_angle, forward, right, NULL);
 
