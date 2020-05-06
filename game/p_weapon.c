@@ -858,8 +858,13 @@ void Weapon_Blaster_Fire (edict_t *ent)
 
 void Weapon_Blaster (edict_t *ent)
 {
-	static int	pause_frames[]	= {19, 32, 0};
-	static int	fire_frames[]	= {5, 0};
+	//static int	pause_frames[]	= {19, 32, 0};
+	//static int	fire_frames[]	= {5, 0};
+	// JNCV MOD 
+	// made blaster into a fire magic missle spell
+
+	static int	pause_frames[] = { 1,2, 19, 32, 0 };
+	static int	fire_frames[] = { 5, 7, 9, 0 };
 
 	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
 }
@@ -946,6 +951,10 @@ void Weapon_HyperBlaster (edict_t *ent)
 ======================================================================
 
 MACHINEGUN / CHAINGUN
+JNCV MOD 
+
+Mchine gun = magic missles with no recoil !!!
+chain machine gun == hit scan laser beam
 
 ======================================================================
 */
@@ -957,7 +966,8 @@ void Machinegun_Fire (edict_t *ent)
 	vec3_t		forward, right;
 	vec3_t		angles;
 	int			damage = 8;
-	int			kick = 2;
+	// removing kick int			kick = 2;
+	int kick = 0;
 	vec3_t		offset;
 
 	if (!(ent->client->buttons & BUTTON_ATTACK))
@@ -1038,7 +1048,10 @@ void Machinegun_Fire (edict_t *ent)
 
 void Weapon_Machinegun (edict_t *ent)
 {
-	static int	pause_frames[]	= {23, 45, 0};
+	// JNCV MOD 
+	// add a pause so that it takes time for the gun to fire
+	// static int	pause_frames[]	= {23, 45, 0};
+	static int	pause_frames[] = { 1, 2, 23, 45, 0 };
 	static int	fire_frames[]	= {4, 5, 0};
 
 	Weapon_Generic (ent, 3, 5, 45, 49, pause_frames, fire_frames, Machinegun_Fire);
@@ -1178,6 +1191,9 @@ void Weapon_Chaingun (edict_t *ent)
 
 SHOTGUN / SUPERSHOTGUN
 
+SHOT GUN = a stun spell
+super shot gun = a force push spell
+
 ======================================================================
 */
 
@@ -1186,8 +1202,12 @@ void weapon_shotgun_fire (edict_t *ent)
 	vec3_t		start;
 	vec3_t		forward, right;
 	vec3_t		offset;
-	int			damage = 4;
-	int			kick = 8;
+	//int			damage = 4;
+	//int			kick = 8;
+
+	int			damage = 0;
+	int			kick = 10;
+
 
 	if (ent->client->ps.gunframe == 9)
 	{
@@ -1229,7 +1249,8 @@ void weapon_shotgun_fire (edict_t *ent)
 
 void Weapon_Shotgun (edict_t *ent)
 {
-	static int	pause_frames[]	= {22, 28, 34, 0};
+	// static int	pause_frames[]	= {22, 28, 34, 0};
+	static int	pause_frames[] = { 1,2,3, 22, 28, 34, 0 };
 	static int	fire_frames[]	= {8, 9, 0};
 
 	Weapon_Generic (ent, 7, 18, 36, 39, pause_frames, fire_frames, weapon_shotgun_fire);
@@ -1242,8 +1263,11 @@ void weapon_supershotgun_fire (edict_t *ent)
 	vec3_t		forward, right;
 	vec3_t		offset;
 	vec3_t		v;
-	int			damage = 6;
-	int			kick = 12;
+	//	int			damage = 6;
+	//int			kick = 12;
+
+	int			damage = 0;
+	int			kick = 80;
 
 	AngleVectors (ent->client->v_angle, forward, right, NULL);
 
