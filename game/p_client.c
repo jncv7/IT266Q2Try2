@@ -1780,6 +1780,14 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 
 		// giving the player more mana
 		other->client->pers.max_mana += 25;
+		//int oldB = other->client->pers.max_bullets;
+		//gi.cprintf(ent, PRINT_HIGH, "this is the old number %i", oldB);
+		other->client->pers.max_bullets += 20;
+		other->client->pers.max_shells += 20;
+		other->client->pers.max_cells += 20;
+		other->client->pers.max_slugs += 20;
+		//int newB = other->client->pers.max_bullets;
+		//gi.cprintf(ent, PRINT_HIGH, "this is the new number %i", newB);
 
 		// MAKE SURE USER HAS TO KILL MORE MONSTERS
 		level.playerexp += 5;
@@ -1789,22 +1797,6 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 	//level.playerexp = 5;
 	level.playerlevel = level.killed_monsters / 5;
 
-	// I am going to see if i can change the max hp as needed
-	// for every 5 kills that the user gets == level up 
-	// i can use 100 + (10)* (total kills % 5) to hp
-
-	//if (level.killed_monsters == level.playerexp && level.killed_monsters > 0){
-	//	gi.cprintf(ent, PRINT_HIGH, "HP WILL RISE \n");
-	//	level.playerexp += 1;
-	//}
-
-	//if (grab/5 == 0){
-	//	if (!deathmatch->value)
-	//		other->max_health += 10;
-	//	gi.cprintf(ent, PRINT_HIGH, "NEWH EALTH WORKSKSKSKSKSKSK POGU %i \n", newH);
-	//	if (other->health < other->max_health)
-	//		other->health = other->max_health;
-	//}
 
 
 
