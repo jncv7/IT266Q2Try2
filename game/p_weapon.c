@@ -849,10 +849,17 @@ void Weapon_Blaster_Fire(edict_t *ent)
 {
 	int		damage;
 	int		modi = (level.playerlevel * 5); // JNCV MOD 
+	int		prayForIt = level.modiDMG;
+	
+	//int		thinku = ent->client->pers.MODITRY1;
+	//gi.cprintf(ent, PRINT_HIGH, "mod health dmg %i", prayForIt);
 	if (deathmatch->value)
 		damage = 15;
 	else
-		damage = 10 + modi;
+		damage = 10 + modi + prayForIt;
+
+
+	//gi.cprintf(ent, PRINT_HIGH, "This is the dmg of the pistol %i", damage);
 	// check if damage numbers are changing
 	//gi.cprintf(ent, PRINT_HIGH, "the damage of the blaster is %i", damage);
 
@@ -865,7 +872,7 @@ void Weapon_Blaster_Fire(edict_t *ent)
 void Weapon_Blaster(edict_t *ent)
 {
 	//static int	pause_frames[]	= {19, 32, 0};
-	//static int	fire_frames[]	= {5, 0};
+	static int	fire_frames[]	= {5, 0};
 	// JNCV MOD 
 	// made blaster into a fire magic missle spell
 	// cprintf is a print to console
@@ -873,7 +880,7 @@ void Weapon_Blaster(edict_t *ent)
 	//gi.cprintf(ent, PRINT_HIGH, "THE player's level is %i",a);
 
 	static int	pause_frames[] = { 1,2, 19, 32, 0 };
-	static int	fire_frames[] = { 5, 7, 9, 0 };
+	//static int	fire_frames[] = { 5, 7, 9, 0 };
 
 	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
 }
@@ -886,6 +893,7 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 	int		effect;
 	int		damage;
 	int		modi = (level.playerlevel * 5); // JNCV MOD 
+	int		prayForIt = level.modiDMG;
 
 	ent->client->weapon_sound = gi.soundindex("weapons/hyprbl1a.wav");
 
@@ -918,7 +926,7 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 			if (deathmatch->value)
 				damage = 15;
 			else
-				damage = 20 + modi; // JNCV MOD
+				damage = 20 + modi + prayForIt; // JNCV MOD
 			Blaster_Fire (ent, offset, damage, true, effect);
 			if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 				ent->client->pers.inventory[ent->client->ammo_index]--;
@@ -976,7 +984,9 @@ void Machinegun_Fire (edict_t *ent)
 	vec3_t		forward, right;
 	vec3_t		angles;
 	int		modi = (level.playerlevel * 5); // JNCV MOD 
-	int		damage = 2 + modi;
+	int		prayForIt = level.modiDMG2;
+	//int DMG_MODX = ent->DMG_MODI2; // this comes from armor shards
+	int		damage = 2 + modi + prayForIt;
 	// removing kick int			kick = 2;
 	int kick = 0;
 	vec3_t		offset;
@@ -1079,11 +1089,12 @@ void Chaingun_Fire (edict_t *ent)
 	int			damage;
 	int			kick = 2;
 	int		modi = (level.playerlevel * 5); // JNCV MOD 
+	int		prayForIt = level.modiDMG2/2;
 
 	if (deathmatch->value)
 		damage = 6;
 	else
-		damage = 1 + modi;
+		damage = 1 + modi + prayForIt ;
 
 	if (ent->client->ps.gunframe == 5)
 		gi.sound(ent, CHAN_AUTO, gi.soundindex("weapons/chngnu1a.wav"), 1, ATTN_IDLE, 0);
@@ -1217,8 +1228,11 @@ void weapon_shotgun_fire (edict_t *ent)
 	//int			damage = 4;
 	//int			kick = 8;
 	int		modi = (level.playerlevel * 5); // JNCV MOD 
+	int		prayForIt = level.modiDMG2;
+
 	int			damage = 0;
-	int			kick = 10 + modi;
+	int			kick = 10 + modi + prayForIt;
+	//gi.cprintf(ent, PRINT_HIGH, "The stun range is %i \n", kick);
 
 
 	if (ent->client->ps.gunframe == 9)
@@ -1278,9 +1292,10 @@ void weapon_supershotgun_fire (edict_t *ent)
 	//	int			damage = 6;
 	//int			kick = 12;
 	// JNCV MOD 
+	int		prayForIt = level.modiDMG2; // jncv mod
 	int		modi = (level.playerlevel * 5); // JNCV MOD 
 	int			damage = 0;
-	int			kick = 80 + modi;
+	int			kick = 80 + modi + prayForIt;
 
 	AngleVectors (ent->client->v_angle, forward, right, NULL);
 

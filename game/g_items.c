@@ -485,31 +485,34 @@ qboolean Add_Ammo (edict_t *ent, gitem_t *item, int count)
 
 qboolean Pickup_Ammo (edict_t *ent, edict_t *other)
 {
-	int			oldcount;
-	int			count;
-	qboolean	weapon;
+	int			oldcount; // what the player has 
+	int			count; // what the new ammount is 
+	qboolean	weapon; // what weapon it belongs too
 
 	weapon = (ent->item->flags & IT_WEAPON);
 	if ( (weapon) && ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		count = 1000;
-	else if (ent->count)
+	else if (ent->count) // if there is a quanity
 		count = ent->count;
 	else
-		count = ent->item->quantity;
+		count = ent->item->quantity; // make that the new quanity
 
-	oldcount = other->client->pers.inventory[ITEM_INDEX(ent->item)];
+	oldcount = other->client->pers.inventory[ITEM_INDEX(ent->item)]; // this is the old amount of ammo
 
 	if (!Add_Ammo (other, ent->item, count))
 		return false;
 
 	if (weapon && !oldcount)
 	{
+		// if the weapon that is being held is not a blaster or in a deathmatch
 		if (other->client->pers.weapon != ent->item && ( !deathmatch->value || other->client->pers.weapon == FindItem("blaster") ) )
 			other->client->newweapon = ent->item;
 	}
 
-	if (!(ent->spawnflags & (DROPPED_ITEM | DROPPED_PLAYER_ITEM)) && (deathmatch->value))
-		SetRespawn (ent, 30);
+	if (!(ent->spawnflags & (DROPPED_ITEM | DROPPED_PLAYER_ITEM)) && (deathmatch->value)) // if not dropped, or in a deathmatch
+		SetRespawn (ent, 30); // just spawn 30 of the ammo 
+
+	//JNCVMoD
 	return true;
 }
 
@@ -543,10 +546,14 @@ void Drop_Ammo (edict_t *ent, gitem_t *item)
 
 void MegaHealth_think (edict_t *self)
 {
-	if (self->owner->health > self->owner->max_health)
+	if (self->owner->health > self->owner->max_health) // if the users health is over the max
 	{
-		self->nextthink = level.time + 1;
-		self->owner->health -= 1;
+		self->nextthink = level.time + 1; // user a timer
+		self->owner->health -= 1; // decay the health back to normal
+
+		// whatever else happens in here, will only last for a short duration
+
+
 		return;
 	}
 
@@ -563,6 +570,31 @@ qboolean Pickup_Health (edict_t *ent, edict_t *other)
 			return false;
 
 	other->health += ent->count;
+	// count is the ammount that it heals LUL
+	//int given = ent->count;
+	 //JNCV MOD -------------------- HEALS ALSO GIVE POWERAHHH
+	if (ent->count == 2){
+		//ent->DMG_MODI = 5;
+		//gi.cprintf(other, PRINT_HIGH, "This is given 2 \n");
+		level.modiDMG = 5;
+		
+	}
+	else if (ent->count == 10){
+		//ent->DMG_MODI += 10;
+		level.modiDMG = 10;
+	//	gi.cprintf(other, PRINT_HIGH, "This is given 10 \n");
+
+	}
+	else if (ent->count == 25){
+	//	gi.cprintf(other, PRINT_HIGH, "This is given 25 \n");
+		// this is stim?
+	//	ent->DMG_MODI += 25;
+		level.modiDMG = 20;
+
+	}
+
+
+
 
 	if (!(ent->style & HEALTH_IGNORE_MAX))
 	{
@@ -596,6 +628,9 @@ int ArmorIndex (edict_t *ent)
 		return 0;
 
 	if (ent->client->pers.inventory[jacket_armor_index] > 0)
+
+		// does this pick up jacket armor?
+		//gi.cprintf(ent, PRINT_HIGH, "picked up jacket armors");
 		return jacket_armor_index;
 
 	if (ent->client->pers.inventory[combat_armor_index] > 0)
@@ -628,12 +663,19 @@ qboolean Pickup_Armor (edict_t *ent, edict_t *other)
 			other->client->pers.inventory[jacket_armor_index] = 2;
 		else
 			other->client->pers.inventory[old_armor_index] += 2;
+
+		//ent->DMG_MODI2 = 100; // JNCVMOD 
+		// when the player picks up armor shards, the mahcine gun is ... TOO STRONG
+		level.modiDMG2 = 12;
 	}
 
 	// if player has no armor, just use it
 	else if (!old_armor_index)
 	{
 		other->client->pers.inventory[ITEM_INDEX(ent->item)] = newinfo->base_count;
+		level.modiDMG2 = 10; 
+
+
 	}
 
 	// use the better armor
@@ -1373,7 +1415,8 @@ always owned, never in the world
 /* pickup */	"Machinegun",
 		0,
 		1,
-		"Bullets",
+		//"Bullets",
+		"Shells",
 		IT_WEAPON|IT_STAY_COOP,
 		WEAP_MACHINEGUN,
 		NULL,
@@ -1396,7 +1439,8 @@ always owned, never in the world
 /* pickup */	"Chaingun",
 		0,
 		1,
-		"Bullets",
+		//"Bullets",
+		"Shells",
 		IT_WEAPON|IT_STAY_COOP,
 		WEAP_CHAINGUN,
 		NULL,
@@ -1419,7 +1463,8 @@ always owned, never in the world
 /* pickup */	"Grenades",
 /* width */		3,
 		5,
-		"grenades",
+		//"grenades",
+		"Shells",
 		IT_AMMO|IT_WEAPON,
 		WEAP_GRENADES,
 		NULL,
@@ -1442,7 +1487,8 @@ always owned, never in the world
 /* pickup */	"Grenade Launcher",
 		0,
 		1,
-		"Grenades",
+		//"Grenades",
+		"Shells",
 		IT_WEAPON|IT_STAY_COOP,
 		WEAP_GRENADELAUNCHER,
 		NULL,
@@ -1465,7 +1511,8 @@ always owned, never in the world
 /* pickup */	"Rocket Launcher",
 		0,
 		1,
-		"Rockets",
+		//"Rockets",
+		"Shells",
 		IT_WEAPON|IT_STAY_COOP,
 		WEAP_ROCKETLAUNCHER,
 		NULL,
@@ -1488,7 +1535,8 @@ always owned, never in the world
 /* pickup */	"HyperBlaster",
 		0,
 		1,
-		"Cells",
+		//"Cells", JNCV MOD 
+		"Shells",
 		IT_WEAPON|IT_STAY_COOP,
 		WEAP_HYPERBLASTER,
 		NULL,
@@ -1511,7 +1559,8 @@ always owned, never in the world
 /* pickup */	"Railgun",
 		0,
 		1,
-		"Slugs",
+		// "Slugs",
+		"Shells",
 		IT_WEAPON|IT_STAY_COOP,
 		WEAP_RAILGUN,
 		NULL,
@@ -1534,7 +1583,8 @@ always owned, never in the world
 /* pickup */	"BFG10K",
 		0,
 		50,
-		"Cells",
+		// "Cells",
+		"Shells",
 		IT_WEAPON|IT_STAY_COOP,
 		WEAP_BFG,
 		NULL,

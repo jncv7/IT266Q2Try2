@@ -346,7 +346,7 @@ void HelpComputer (edict_t *ent)
 		// we can have it so that every 5 monsters that are killed, we get a small power boost.
 		level.killed_monsters, level.total_monsters, 
 		// level.found_goals, level.total_goals,
-		modi, level.total_goals,
+		modi, level.modiDMG, // show lvl modi on the left, and potion modi on the right
 		level.playerlevel, level.total_secrets);
 		//level.found_secrets, level.total_secrets);
 		level.cheaterCount = 2;

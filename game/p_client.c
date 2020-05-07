@@ -1777,6 +1777,7 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		// give the user more ammo / mana
 		// try and have all guns use 1 kind of ammo,
 		// give the player max more ammo
+		// USE SHELLS
 
 		// giving the player more mana
 		other->client->pers.max_mana += 25;

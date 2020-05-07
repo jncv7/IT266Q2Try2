@@ -340,6 +340,10 @@ typedef struct
 	int			lastPlayerLevel;
 	int			cheaterCount;
 
+	// oh boi, this is cheese but whatever
+	int		modiDMG; // for the healths
+	int		modiDMG2; // for the armors
+
 	edict_t		*current_entity;	// entity running from G_RunFrame
 	int			body_que;			// dead bodies
 
@@ -857,6 +861,9 @@ typedef struct
 	int			selected_item;
 	int			inventory[MAX_ITEMS];
 
+	// JNCV MOD 
+	int			MODITRY1; // this is to try and link weapons and items together
+
 	// ammo capacities
 	int			max_bullets;
 	int			max_shells;
@@ -1082,6 +1089,10 @@ struct edict_s
 	float		dmg_radius;
 	int			sounds;			//make this a spawntemp var?
 	int			count;
+
+	// JNCV MOD 
+	int			DMG_MODI;
+
 
 	edict_t		*chain;
 	edict_t		*enemy;
