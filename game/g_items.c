@@ -273,6 +273,9 @@ qboolean Pickup_Pack (edict_t *ent, edict_t *other)
 		other->client->pers.max_cells = 300;
 	if (other->client->pers.max_slugs < 100)
 		other->client->pers.max_slugs = 100;
+	if (other->client->pers.max_mana < 500) // JNCV MOD 
+		other->client->pers.max_mana = 499;
+
 
 	item = FindItem("Bullets");
 	if (item)

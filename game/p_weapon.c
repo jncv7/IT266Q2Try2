@@ -845,7 +845,7 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 }
 
 
-void Weapon_Blaster_Fire (edict_t *ent)
+void Weapon_Blaster_Fire(edict_t *ent)
 {
 	int		damage;
 	int		modi = (level.playerlevel * 5); // JNCV MOD 
@@ -855,6 +855,8 @@ void Weapon_Blaster_Fire (edict_t *ent)
 		damage = 10 + modi;
 	// check if damage numbers are changing
 	//gi.cprintf(ent, PRINT_HIGH, "the damage of the blaster is %i", damage);
+
+
 
 	Blaster_Fire (ent, vec3_origin, damage, false, EF_BLASTER);
 	ent->client->ps.gunframe++;

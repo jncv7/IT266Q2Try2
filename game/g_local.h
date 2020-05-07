@@ -337,6 +337,8 @@ typedef struct
 	//JNCV MOD --> XP MOD
 	int			playerlevel;
 	int			playerexp;
+	int			lastPlayerLevel;
+	int			cheaterCount;
 
 	edict_t		*current_entity;	// entity running from G_RunFrame
 	int			body_que;			// dead bodies

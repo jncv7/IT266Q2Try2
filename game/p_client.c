@@ -608,6 +608,8 @@ void InitClientPersistant (gclient_t *client)
 {
 	gitem_t		*item;
 
+	int modi = level.playerlevel * 10; // JNCV MOD 
+
 	memset (&client->pers, 0, sizeof(client->pers));
 
 	item = FindItem("Blaster");
@@ -615,16 +617,27 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.inventory[client->pers.selected_item] = 1;
 
 	client->pers.weapon = item;
+	// JNCV MOD
 
-	client->pers.health			= 100;
-	client->pers.max_health		= 100;
 
-	client->pers.max_bullets	= 200;
-	client->pers.max_shells		= 100;
-	client->pers.max_rockets	= 50;
-	client->pers.max_grenades	= 50;
-	client->pers.max_cells		= 200;
-	client->pers.max_slugs		= 50;
+	client->pers.health	= 100;
+	 // client->pers.max_health		= 100; JNCV MOD 
+	client->pers.max_health = 100;
+
+	//client->pers.max_bullets	= 200;
+	//client->pers.max_shells		= 100;
+	//client->pers.max_rockets	= 50;
+	//client->pers.max_grenades	= 50;
+	//client->pers.max_cells		= 200;
+	//client->pers.max_slugs		= 50;
+
+	// JNCV MOD
+	client->pers.max_bullets = 100;
+	client->pers.max_shells = 100;
+	client->pers.max_rockets = 10;
+	client->pers.max_grenades = 10;
+	client->pers.max_cells = 10;
+	client->pers.max_slugs = 10;
 
 	client->pers.connected = true;
 }
@@ -1741,6 +1754,60 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		if (other->inuse && other->client->chase_target == ent)
 			UpdateChaseCam(other);
 	}
+
+
+	// JNCVMOD --------------------------------------------------------------
+	
+	if (level.playerexp == 0){
+		level.playerexp = 5;
+		//gi.cprintf(ent, PRINT_HIGH, "changed to 5 \n");
+		
+	}
+	
+	if ((level.killed_monsters % level.playerexp) == 0  && level.killed_monsters > 0){
+		
+		// THIS CODE IS FOR MORE HP AND FOR COMPLETE HEAL
+		if (!deathmatch->value)
+				other->max_health += 10;
+
+		if (other->health < other->max_health)
+				other->health = other->max_health;
+
+
+		// give the user more ammo / mana
+		// try and have all guns use 1 kind of ammo,
+		// give the player max more ammo
+
+		// giving the player more mana
+		other->client->pers.max_mana += 25;
+
+		// MAKE SURE USER HAS TO KILL MORE MONSTERS
+		level.playerexp += 5;
+	}
+
+	// JNCVMOD 
+	//level.playerexp = 5;
+	level.playerlevel = level.killed_monsters / 5;
+
+	// I am going to see if i can change the max hp as needed
+	// for every 5 kills that the user gets == level up 
+	// i can use 100 + (10)* (total kills % 5) to hp
+
+	//if (level.killed_monsters == level.playerexp && level.killed_monsters > 0){
+	//	gi.cprintf(ent, PRINT_HIGH, "HP WILL RISE \n");
+	//	level.playerexp += 1;
+	//}
+
+	//if (grab/5 == 0){
+	//	if (!deathmatch->value)
+	//		other->max_health += 10;
+	//	gi.cprintf(ent, PRINT_HIGH, "NEWH EALTH WORKSKSKSKSKSKSK POGU %i \n", newH);
+	//	if (other->health < other->max_health)
+	//		other->health = other->max_health;
+	//}
+
+
+
 }
 
 

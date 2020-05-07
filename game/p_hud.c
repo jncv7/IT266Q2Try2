@@ -323,8 +323,9 @@ void HelpComputer (edict_t *ent)
 	// for now player level will reset per map
 
 	//here is the maths for the player level
-	level.playerexp = 5;
-	level.playerlevel = level.killed_monsters / level.playerexp;
+	//level.playerexp = 5;
+	//level.lastPlayerLevel = level.playerlevel;
+	//level.playerlevel = level.killed_monsters / level.playerexp;
 	int modi = level.playerlevel * 5;
 	
 
@@ -348,6 +349,8 @@ void HelpComputer (edict_t *ent)
 		modi, level.total_goals,
 		level.playerlevel, level.total_secrets);
 		//level.found_secrets, level.total_secrets);
+		level.cheaterCount = 2;
+
 
 	gi.WriteByte (svc_layout);
 	gi.WriteString (string);
